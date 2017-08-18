@@ -1,6 +1,7 @@
 package com.mygdx.game.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.model.Alien;
 import com.mygdx.game.model.World;
@@ -18,11 +19,13 @@ public class WorldController {
 
     public void update (float delta) {
         if (world.getAliens() != null) {
-            for (Alien alien : world.getAliens()) {
-                alien.update(delta);
-                if (alien.getPosition().y - Alien.SIZE <= world.getDoor().getPosition().y + world.getDoor().getHeight()) {
+            for (int i = 0; i < world.getAliens().size; i++) {
+                world.getAliens().get(i).update(delta);
+                if (world.getAliens().get(i).getPosition().y - Alien.SIZE <= world.getDoor().getPosition().y + world.getDoor().getHeight()) {
+                    if (Intersector.overlaps(world.getAliens().get(i).getAlienBound(), world.getDoor().getDoorBound())) {
                     Gdx.app.log("alien delete", "");
-                    world.deleteAlien(alien);
+                    world.deleteAlien(i);
+                    }
                 }
             }
         }

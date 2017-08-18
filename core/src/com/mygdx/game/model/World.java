@@ -23,8 +23,8 @@ public class World {
         Gdx.app.log("alien added", pos.x + " " + pos.y);
     }
 
-    public void deleteAlien(Alien alien) {
-        aliens.removeIndex(aliens.indexOf(alien, false));
+    public void deleteAlien(int i) {
+        aliens.removeIndex(i);
     }
 
     public Array<Alien> getAliens() {
