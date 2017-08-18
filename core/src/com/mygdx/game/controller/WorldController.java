@@ -20,6 +20,10 @@ public class WorldController {
         if (world.getAliens() != null) {
             for (Alien alien : world.getAliens()) {
                 alien.update(delta);
+                if (alien.getPosition().y - Alien.SIZE <= world.getDoor().getPosition().y + world.getDoor().getHeight()) {
+                    Gdx.app.log("alien delete", "");
+                    world.deleteAlien(alien);
+                }
             }
         }
     }

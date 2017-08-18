@@ -15,8 +15,8 @@ import com.mygdx.game.model.World;
  */
 
 public class WorldRenderer {
-    static final int WORLD_HEIGHT = 10;
-    static final int WORLD_WIDTH = 10;
+    static final int WORLD_HEIGHT = 800;
+    static final int WORLD_WIDTH = 480;
 
     World world;
     OrthographicCamera camera;
@@ -28,10 +28,10 @@ public class WorldRenderer {
         this.world = world;
         float gdxW = Gdx.graphics.getWidth();
         float gdxH = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT * (gdxH / gdxW));
+        camera = new OrthographicCamera(WORLD_WIDTH, WORLD_WIDTH * (gdxH / gdxW));
 
-        //camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        //camera.update();
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera.update();
 
         shpRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
@@ -39,18 +39,18 @@ public class WorldRenderer {
     }
 
     public void render(){
-        drawCells();
+        drawDoor();
         drawAliens();
     }
 
-    private void  drawCells() {
-        //shpRenderer.setProjectionMatrix(camera.combined);
-        //shpRenderer.begin();
-        //for (int i = 0; i < WORLD_WIDTH; i++){
-
-        //}
-        //shpRenderer.end();
+    private void drawDoor(){
+        shpRenderer.setProjectionMatrix(camera.combined);
+        shpRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shpRenderer.setColor(Color.GREEN);
+        shpRenderer.rect(world.getDoor().getPosition().x, world.getDoor().getPosition().y, world.getDoor().getWidth(),world.getDoor().getHeight());
+        shpRenderer.end();
     }
+
 
     private void drawAliens(){
         if (world.getAliens() != null) {

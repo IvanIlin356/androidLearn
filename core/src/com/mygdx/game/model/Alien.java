@@ -16,10 +16,11 @@ public class Alien {
     }
 
     public void update(float delta) {
-        this.position.y -= 50 * delta;
+        this.position.y -= 30 * delta;
     }
 
     public Vector2 getPosition() {
         return position;
     }
+
 }
