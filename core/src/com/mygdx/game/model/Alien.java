@@ -12,10 +12,12 @@ public class Alien {
 
     Vector2 position = new Vector2();
     Circle alienBound;
+    boolean isSpoted;
 
     public  Alien(Vector2 pos) {
         this.position = pos;
         this.alienBound = new Circle(pos.x, pos.y, SIZE);
+        this.isSpoted = false;
     }
 
     public void update(float delta) {
@@ -29,5 +31,13 @@ public class Alien {
 
     public Circle getAlienBound() {
         return alienBound;
+    }
+
+    public boolean isSpoted() {
+        return isSpoted;
+    }
+
+    public void setSpoted(boolean spoted) {
+        isSpoted = spoted;
     }
 }

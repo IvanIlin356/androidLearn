@@ -84,7 +84,15 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        world.addAlien(new Vector2(screenX, 800 - screenY));
+        if (800 - screenY > world.getDoor().getPosition().y + world.getDoor().getHeight()) {
+            world.addAlien(new Vector2(screenX, 800 - screenY));
+        }
+
+        if (Math.abs(world.getJoystick().getPosition().y - (800 - screenY)) <= world.getJoystick().getRadius()) {
+            if (Math.abs(world.getJoystick().getPosition().x - screenX) <= world.getJoystick().getRadius()) {
+                world.getJoystick().touch(screenX, 800-screenY);
+            }
+        }
         return false;
     }
 

@@ -40,7 +40,25 @@ public class WorldRenderer {
 
     public void render(){
         drawDoor();
+        drawSpotlight();
         drawAliens();
+        drawJoystick();
+    }
+
+    private void drawSpotlight() {
+        shpRenderer.setProjectionMatrix(camera.combined);
+        shpRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shpRenderer.setColor(Color.YELLOW);
+        shpRenderer.circle(world.getSpotLight().getPosition().x, world.getSpotLight().getPosition().y, world.getSpotLight().getRadius());
+        shpRenderer.end();
+    }
+
+    private void drawJoystick() {
+        shpRenderer.setProjectionMatrix(camera.combined);
+        shpRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shpRenderer.setColor(Color.LIGHT_GRAY);
+        shpRenderer.circle(world.getJoystick().getPosition().x, world.getJoystick().getPosition().y, world.getJoystick().getRadius());
+        shpRenderer.end();
     }
 
     private void drawDoor(){
@@ -58,7 +76,7 @@ public class WorldRenderer {
             batch.setProjectionMatrix(camera.combined);
             shpRenderer.begin(ShapeRenderer.ShapeType.Filled);
             for (Alien alien : world.getAliens()) {
-                shpRenderer.setColor(Color.BLUE);
+                shpRenderer.setColor(alien.isSpoted() == false ? Color.BLUE : Color.RED);
                 shpRenderer.circle(alien.getPosition().x, alien.getPosition().y, Alien.SIZE);
                 batch.begin();
                 font.draw(batch,"x: " + alien.getPosition().x + " y: " + alien.getPosition().y,alien.getPosition().x + Alien.SIZE*2, alien.getPosition().y + Alien.SIZE*2);

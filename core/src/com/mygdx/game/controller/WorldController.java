@@ -21,10 +21,18 @@ public class WorldController {
         if (world.getAliens() != null) {
             for (int i = 0; i < world.getAliens().size; i++) {
                 world.getAliens().get(i).update(delta);
+
+                if (Math.abs(world.getSpotLight().getPosition().y - world.getAliens().get(i).getPosition().y) <= world.getSpotLight().getRadius() + Alien.SIZE) {
+                    if (Math.abs(world.getSpotLight().getPosition().x - world.getAliens().get(i).getPosition().x) <= world.getSpotLight().getRadius() + Alien.SIZE) {
+                        world.getAliens().get(i).setSpoted(true);
+                    }
+                }
+                else world.getAliens().get(i).setSpoted(false);
+
                 if (world.getAliens().get(i).getPosition().y - Alien.SIZE <= world.getDoor().getPosition().y + world.getDoor().getHeight()) {
                     if (Intersector.overlaps(world.getAliens().get(i).getAlienBound(), world.getDoor().getDoorBound())) {
-                    Gdx.app.log("alien delete", "");
-                    world.deleteAlien(i);
+                        Gdx.app.log("alien delete", "");
+                        world.deleteAlien(i);
                     }
                 }
             }

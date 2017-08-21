@@ -12,10 +12,14 @@ import com.badlogic.gdx.utils.Array;
 public class World {
     Array<Alien> aliens;
     Door door;
+    Joystick joystick;
+    SpotLight spotLight;
 
     public World(){
         this.aliens = new Array<Alien>();
-        this.door = new Door(new Vector2(50,150), 380, 30);
+        this.door = new Door(new Vector2(50,250), 380, 30);
+        this.spotLight = new SpotLight(new Vector2(200, 400), 50);
+        this.joystick = new Joystick(new Vector2(400, 100), 50, spotLight);
     }
 
     public void addAlien(Vector2 pos){
@@ -33,5 +37,13 @@ public class World {
 
     public Door getDoor() {
         return door;
+    }
+
+    public Joystick getJoystick() {
+        return joystick;
+    }
+
+    public SpotLight getSpotLight() {
+        return spotLight;
     }
 }

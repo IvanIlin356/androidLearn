@@ -14,4 +14,16 @@ public class SpotLight {
         this.position = pos;
         this.radius = rad;
     }
+
+    public void update(Vector2 newDirection){
+        position.add(newDirection);
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
 }
