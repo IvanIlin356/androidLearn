@@ -15,9 +15,6 @@ import com.mygdx.game.model.World;
  */
 
 public class WorldRenderer {
-    static final int WORLD_HEIGHT = 800;
-    static final int WORLD_WIDTH = 480;
-
     World world;
     OrthographicCamera camera;
     ShapeRenderer shpRenderer;
@@ -26,16 +23,19 @@ public class WorldRenderer {
 
     public WorldRenderer(World world) {
         this.world = world;
-        float gdxW = Gdx.graphics.getWidth();
-        float gdxH = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(WORLD_WIDTH, WORLD_WIDTH * (gdxH / gdxW));
+        float worldWidth = 480;
+        float ppu = Gdx.graphics.getWidth() / worldWidth;
+        float worldHeight = Gdx.graphics.getHeight() / ppu;
+        camera = new OrthographicCamera(worldWidth, worldHeight);
 
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera.position.set(worldWidth / 2, worldHeight / 2, 0); //camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
         shpRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         font = new BitmapFont();
+
+        Gdx.app.log("world Created", worldWidth + " x " + worldHeight + ", ppu = " + ppu);
     }
 
     public void render(){
@@ -84,5 +84,9 @@ public class WorldRenderer {
             }
             shpRenderer.end();
         }
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
     }
 }

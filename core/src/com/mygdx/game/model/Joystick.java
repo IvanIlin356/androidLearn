@@ -23,8 +23,7 @@ public class Joystick {
         this.spotLight = spotLight;
     }
 
-    public void touch(int touchX, int touchY){
-        Gdx.app.log("joystick touched!", "");
+    public void touch(float touchX, float touchY){
         newDirection.x = touchX - position.x;
         newDirection.y = touchY - position.y;
         spotLight.update(newDirection);

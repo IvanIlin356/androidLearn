@@ -17,8 +17,8 @@ public class World {
 
     public World(){
         this.aliens = new Array<Alien>();
-        this.door = new Door(new Vector2(50,250), 380, 30);
-        this.spotLight = new SpotLight(new Vector2(200, 400), 50);
+        this.door = new Door(new Vector2(50,200), 380, 30);
+        this.spotLight = new SpotLight(new Vector2(240, 400), 50);
         this.joystick = new Joystick(new Vector2(400, 100), 50, spotLight);
     }
 

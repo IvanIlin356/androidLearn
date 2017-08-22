@@ -24,7 +24,9 @@ public class WorldController {
 
                 if (Math.abs(world.getSpotLight().getPosition().y - world.getAliens().get(i).getPosition().y) <= world.getSpotLight().getRadius() + Alien.SIZE) {
                     if (Math.abs(world.getSpotLight().getPosition().x - world.getAliens().get(i).getPosition().x) <= world.getSpotLight().getRadius() + Alien.SIZE) {
-                        world.getAliens().get(i).setSpoted(true);
+                        if (Intersector.overlaps(world.getAliens().get(i).getAlienBound(), world.getSpotLight().getSpotLightBound())) {
+                            world.getAliens().get(i).setSpoted(true);
+                        }
                     }
                 }
                 else world.getAliens().get(i).setSpoted(false);

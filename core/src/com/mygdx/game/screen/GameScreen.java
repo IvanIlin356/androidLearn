@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.controller.WorldController;
 import com.mygdx.game.model.World;
@@ -19,6 +20,8 @@ public class GameScreen implements Screen, InputProcessor {
     World world;
     WorldController controller;
     WorldRenderer renderer;
+    Vector3 touchV;
+    float touchX, touchY;
     //Gdx.input.setInputProcessor(this);
 
     public GameScreen(MyGdxGame game) {
@@ -26,6 +29,7 @@ public class GameScreen implements Screen, InputProcessor {
         this.world = new World();
         this.controller = new WorldController(world);
         this.renderer = new WorldRenderer(world);
+        this.touchV = new Vector3();
         Gdx.input.setInputProcessor(this);
     }
     @Override
@@ -84,13 +88,19 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (800 - screenY > world.getDoor().getPosition().y + world.getDoor().getHeight()) {
-            world.addAlien(new Vector2(screenX, 800 - screenY));
+        touchV.x = screenX;
+        touchV.y = screenY;
+        renderer.getCamera().unproject(touchV);
+        //touchX = renderer.getCamera().position.x - renderer.getCamera().viewportWidth + touchV.x;
+        //touchY = renderer.getCamera().position.y - renderer.getCamera().viewportHeight + touchV.y;
+
+        if (touchV.y > world.getDoor().getPosition().y + world.getDoor().getHeight()) {
+            world.addAlien(new Vector2(touchV.x, touchV.y));
         }
 
-        if (Math.abs(world.getJoystick().getPosition().y - (800 - screenY)) <= world.getJoystick().getRadius()) {
-            if (Math.abs(world.getJoystick().getPosition().x - screenX) <= world.getJoystick().getRadius()) {
-                world.getJoystick().touch(screenX, 800-screenY);
+        if (Math.abs(world.getJoystick().getPosition().y - touchV.y) <= world.getJoystick().getRadius()) {
+            if (Math.abs(world.getJoystick().getPosition().x - touchV.x) <= world.getJoystick().getRadius()) {
+                world.getJoystick().touch(touchV.x, touchV.y);
             }
         }
         return false;
