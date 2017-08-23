@@ -20,7 +20,7 @@ public class GameScreen implements Screen, InputProcessor {
     World world;
     WorldController controller;
     WorldRenderer renderer;
-    Vector3 touchV;
+    Vector3 touchV, touchD;
     float touchX, touchY;
     //Gdx.input.setInputProcessor(this);
 
@@ -30,6 +30,7 @@ public class GameScreen implements Screen, InputProcessor {
         this.controller = new WorldController(world);
         this.renderer = new WorldRenderer(world);
         this.touchV = new Vector3();
+        this.touchD = new Vector3();
         Gdx.input.setInputProcessor(this);
     }
     @Override
@@ -113,6 +114,16 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        touchD.x = screenX;
+        touchD.y = screenY;
+        renderer.getCamera().unproject(touchD);
+
+        if (Math.abs(world.getJoystick().getPosition().y - touchD.y) <= world.getJoystick().getRadius()) {
+            if (Math.abs(world.getJoystick().getPosition().x - touchD.x) <= world.getJoystick().getRadius()) {
+                world.getJoystick().touch(touchD.x, touchD.y);
+            }
+        }
+
         return false;
     }
 

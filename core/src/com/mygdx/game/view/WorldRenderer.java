@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.model.Alien;
+import com.mygdx.game.model.Guard;
 import com.mygdx.game.model.World;
 
 /**
@@ -42,7 +43,16 @@ public class WorldRenderer {
         drawDoor();
         drawSpotlight();
         drawAliens();
+        drawGuard();
         drawJoystick();
+    }
+
+    private void drawGuard(){
+        shpRenderer.setProjectionMatrix(camera.combined);
+        shpRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shpRenderer.setColor(world.getGuard().getState() == Guard.State.onDUTY ? Color.PURPLE : Color.GREEN);
+        shpRenderer.circle(world.getGuard().getPosition().x, world.getGuard().getPosition().y, Guard.SIZE);
+        shpRenderer.end();
     }
 
     private void drawSpotlight() {

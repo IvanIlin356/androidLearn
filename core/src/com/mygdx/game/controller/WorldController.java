@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.model.Alien;
+import com.mygdx.game.model.Guard;
 import com.mygdx.game.model.World;
 
 /**
@@ -12,6 +13,7 @@ import com.mygdx.game.model.World;
 
 public class WorldController {
     World world = new World();
+    boolean isGuardOnWork = false;
 
     public WorldController(World world){
         this.world = world;
@@ -19,17 +21,23 @@ public class WorldController {
 
     public void update (float delta) {
         if (world.getAliens() != null) {
+            isGuardOnWork = false;
             for (int i = 0; i < world.getAliens().size; i++) {
                 world.getAliens().get(i).update(delta);
 
-                if (Math.abs(world.getSpotLight().getPosition().y - world.getAliens().get(i).getPosition().y) <= world.getSpotLight().getRadius() + Alien.SIZE) {
-                    if (Math.abs(world.getSpotLight().getPosition().x - world.getAliens().get(i).getPosition().x) <= world.getSpotLight().getRadius() + Alien.SIZE) {
+                if ((Math.abs(world.getSpotLight().getPosition().y - world.getAliens().get(i).getPosition().y) <= world.getSpotLight().getRadius() + Alien.SIZE) &&
+                        (Math.abs(world.getSpotLight().getPosition().x - world.getAliens().get(i).getPosition().x) <= world.getSpotLight().getRadius() + Alien.SIZE)) {
                         if (Intersector.overlaps(world.getAliens().get(i).getAlienBound(), world.getSpotLight().getSpotLightBound())) {
                             world.getAliens().get(i).setSpoted(true);
+                            world.getGuard().setState(Guard.State.WORK);
+                            world.getGuard().setSpottedAlien(world.getAliens().get(i));
+                            isGuardOnWork = true;
                         }
-                    }
                 }
-                else world.getAliens().get(i).setSpoted(false);
+                else {
+                    world.getAliens().get(i).setSpoted(false);
+                    if (!isGuardOnWork) world.getGuard().setState(Guard.State.onDUTY);
+                }
 
                 if (world.getAliens().get(i).getPosition().y - Alien.SIZE <= world.getDoor().getPosition().y + world.getDoor().getHeight()) {
                     if (Intersector.overlaps(world.getAliens().get(i).getAlienBound(), world.getDoor().getDoorBound())) {
@@ -39,5 +47,7 @@ public class WorldController {
                 }
             }
         }
+
+        world.getGuard().update(delta);
     }
 }

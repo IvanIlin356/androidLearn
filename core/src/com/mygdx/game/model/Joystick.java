@@ -1,7 +1,5 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -12,7 +10,7 @@ public class Joystick {
     Vector2 position;
     Vector2 newDirection;
     int radius;
-    static final float SPEED = 10f;
+    static final float SPEED = 50f;
     SpotLight spotLight;
 
 
@@ -24,8 +22,7 @@ public class Joystick {
     }
 
     public void touch(float touchX, float touchY){
-        newDirection.x = touchX - position.x;
-        newDirection.y = touchY - position.y;
+        newDirection.set(touchX - position.x, touchY - position.y).nor().scl(SPEED);
         spotLight.update(newDirection);
     }
 

@@ -14,12 +14,14 @@ public class World {
     Door door;
     Joystick joystick;
     SpotLight spotLight;
+    Guard guard;
 
     public World(){
         this.aliens = new Array<Alien>();
         this.door = new Door(new Vector2(50,200), 380, 30);
         this.spotLight = new SpotLight(new Vector2(240, 400), 50);
         this.joystick = new Joystick(new Vector2(400, 100), 50, spotLight);
+        this.guard = new Guard(new Vector2(240, 250));
     }
 
     public void addAlien(Vector2 pos){
@@ -45,5 +47,9 @@ public class World {
 
     public SpotLight getSpotLight() {
         return spotLight;
+    }
+
+    public Guard getGuard() {
+        return guard;
     }
 }
