@@ -20,6 +20,9 @@ public class WorldController {
     }
 
     public void update (float delta) {
+
+        world.getSpotLight().update(delta);
+
         if (world.getAliens() != null) {
             isGuardOnWork = false;
             for (int i = 0; i < world.getAliens().size; i++) {
@@ -32,6 +35,9 @@ public class WorldController {
                             world.getGuard().setState(Guard.State.WORK);
                             world.getGuard().setSpottedAlien(world.getAliens().get(i));
                             isGuardOnWork = true;
+                                if (Intersector.overlaps(world.getAliens().get(i).getAlienBound(), world.getGuard().getGuardBound())) {
+                                    world.getGuard().hitAlien(world.getAliens().get(i));
+                                }
                         }
                 }
                 else {
@@ -41,10 +47,13 @@ public class WorldController {
 
                 if (world.getAliens().get(i).getPosition().y - Alien.SIZE <= world.getDoor().getPosition().y + world.getDoor().getHeight()) {
                     if (Intersector.overlaps(world.getAliens().get(i).getAlienBound(), world.getDoor().getDoorBound())) {
-                        Gdx.app.log("alien delete", "");
-                        world.deleteAlien(i);
+                        world.getAliens().get(i).setAlive(false);
                     }
                 }
+
+                if (world.getAliens().get(i).getHealth() <= 0) world.getAliens().get(i).setAlive(false);
+
+                if (!world.getAliens().get(i).isAlive()) world.deleteAlien(i);
             }
         }
 

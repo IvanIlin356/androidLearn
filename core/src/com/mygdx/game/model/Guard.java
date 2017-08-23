@@ -19,6 +19,7 @@ public class Guard {
     Circle guardBound;
     boolean isLeft;
     int steps;
+    int damage;
 
     public enum State {
         onDUTY, WORK
@@ -32,6 +33,7 @@ public class Guard {
         this.steps = 0;
         this.spottedAlien = new Alien(new Vector2(0,0));
         this.alienDirection = new Vector2();
+        this.damage = 2;
     }
 
     public void update(float delta) {
@@ -51,13 +53,17 @@ public class Guard {
                         steps = -STEPS;
                     }
                 }
-                guardBound.set(position, SIZE);
                 break;
             case WORK:
                 alienDirection.set(spottedAlien.position.x - position.x, spottedAlien.position.y - position.y).nor().scl(SPEED);
                 position.add(alienDirection.x * delta, alienDirection.y * delta);
                 break;
         }
+        guardBound.set(position, SIZE);
+    }
+
+    public void hitAlien(Alien alien){
+        alien.incHealth(damage);
     }
 
     public State getState() {

@@ -89,7 +89,7 @@ public class WorldRenderer {
                 shpRenderer.setColor(alien.isSpoted() == false ? Color.BLUE : Color.RED);
                 shpRenderer.circle(alien.getPosition().x, alien.getPosition().y, Alien.SIZE);
                 batch.begin();
-                font.draw(batch,"x: " + alien.getPosition().x + " y: " + alien.getPosition().y,alien.getPosition().x + Alien.SIZE*2, alien.getPosition().y + Alien.SIZE*2);
+                font.draw(batch,"health: " + alien.getHealth(), alien.getPosition().x + Alien.SIZE*2, alien.getPosition().y + Alien.SIZE*2);
                 batch.end();
             }
             shpRenderer.end();

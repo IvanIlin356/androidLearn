@@ -10,7 +10,6 @@ public class Joystick {
     Vector2 position;
     Vector2 newDirection;
     int radius;
-    static final float SPEED = 50f;
     SpotLight spotLight;
 
 
@@ -21,10 +20,15 @@ public class Joystick {
         this.spotLight = spotLight;
     }
 
-    public void touch(float touchX, float touchY){
-        newDirection.set(touchX - position.x, touchY - position.y).nor().scl(SPEED);
-        spotLight.update(newDirection);
+    public void touchDown(float touchX, float touchY){
+        newDirection.set(touchX - position.x, touchY - position.y).nor();
+        spotLight.setNewDirection(newDirection);
     }
+
+    public void touchUp(){
+        spotLight.stopSpotLight();
+    }
+
 
     public Vector2 getPosition() {
         return position;
