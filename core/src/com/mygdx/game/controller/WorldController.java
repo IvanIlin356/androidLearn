@@ -3,6 +3,7 @@ package com.mygdx.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.model.Alien;
 import com.mygdx.game.model.Guard;
 import com.mygdx.game.model.World;
@@ -12,8 +13,9 @@ import com.mygdx.game.model.World;
  */
 
 public class WorldController {
-    World world = new World();
+    World world;
     boolean isGuardOnWork = false;
+    long lastHitTime;
 
     public WorldController(World world){
         this.world = world;
@@ -35,14 +37,17 @@ public class WorldController {
                             world.getGuard().setState(Guard.State.WORK);
                             world.getGuard().setSpottedAlien(world.getAliens().get(i));
                             isGuardOnWork = true;
+                            if (TimeUtils.nanoTime() - lastHitTime > world.getGuard().getAttackSpeed()) {
                                 if (Intersector.overlaps(world.getAliens().get(i).getAlienBound(), world.getGuard().getGuardBound())) {
                                     world.getGuard().hitAlien(world.getAliens().get(i));
+                                    lastHitTime = TimeUtils.nanoTime();
                                 }
+                            }
                         }
                 }
                 else {
                     world.getAliens().get(i).setSpoted(false);
-                    if (!isGuardOnWork) world.getGuard().setState(Guard.State.onDUTY);
+                    //if (!isGuardOnWork) world.getGuard().setState(Guard.State.onDUTY);
                 }
 
                 if (world.getAliens().get(i).getPosition().y - Alien.SIZE <= world.getDoor().getPosition().y + world.getDoor().getHeight()) {
@@ -55,6 +60,7 @@ public class WorldController {
 
                 if (!world.getAliens().get(i).isAlive()) world.deleteAlien(i);
             }
+            if (!isGuardOnWork) world.getGuard().setState(Guard.State.onDUTY);
         }
 
         world.getGuard().update(delta);

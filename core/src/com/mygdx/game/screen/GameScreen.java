@@ -9,7 +9,9 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.controller.LevelController;
 import com.mygdx.game.controller.WorldController;
+import com.mygdx.game.model.Level;
 import com.mygdx.game.model.World;
 import com.mygdx.game.view.WorldRenderer;
 
@@ -23,14 +25,16 @@ public class GameScreen implements Screen,InputProcessor{
     WorldController controller;
     WorldRenderer renderer;
     Vector3 touchV, touchD;
+    LevelController levelController;
     float touchX, touchY;
     //Gdx.input.setInputProcessor(this);
 
     public GameScreen(MyGdxGame game) {
         this.game = game;
-        this.world = new World();
+        this.world = new World(new Level(1));
         this.controller = new WorldController(world);
         this.renderer = new WorldRenderer(world);
+        this.levelController = new LevelController(world);
         this.touchV = new Vector3();
         this.touchD = new Vector3();
 
@@ -45,6 +49,7 @@ public class GameScreen implements Screen,InputProcessor{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         controller.update(delta);
+        levelController.update();
         renderer.render();
     }
 
@@ -98,9 +103,9 @@ public class GameScreen implements Screen,InputProcessor{
         //touchX = renderer.getCamera().position.x - renderer.getCamera().viewportWidth + touchV.x;
         //touchY = renderer.getCamera().position.y - renderer.getCamera().viewportHeight + touchV.y;
 
-        if (touchV.y > world.getDoor().getPosition().y + world.getDoor().getHeight()) {
+        /*if (touchV.y > world.getDoor().getPosition().y + world.getDoor().getHeight()) {
             world.addAlien(new Vector2(touchV.x, touchV.y));
-        }
+        }*/
 
         if (Math.abs(world.getJoystick().getPosition().y - touchV.y) <= world.getJoystick().getRadius()) {
             if (Math.abs(world.getJoystick().getPosition().x - touchV.x) <= world.getJoystick().getRadius()) {

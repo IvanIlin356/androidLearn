@@ -20,6 +20,7 @@ public class Guard {
     boolean isLeft;
     int steps;
     int damage;
+    long attackSpeed;
 
     public enum State {
         onDUTY, WORK
@@ -34,6 +35,7 @@ public class Guard {
         this.spottedAlien = new Alien(new Vector2(0,0));
         this.alienDirection = new Vector2();
         this.damage = 2;
+        this.attackSpeed = 500000000;
     }
 
     public void update(float delta) {
@@ -88,5 +90,9 @@ public class Guard {
 
     public void setSpottedAlien(Alien spottedAlien) {
         this.spottedAlien = spottedAlien;
+    }
+
+    public long getAttackSpeed() {
+        return attackSpeed;
     }
 }

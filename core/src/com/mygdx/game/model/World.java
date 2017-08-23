@@ -15,18 +15,15 @@ public class World {
     Joystick joystick;
     SpotLight spotLight;
     Guard guard;
+    Level level;
 
-    public World(){
-        this.aliens = new Array<Alien>();
+    public World(Level level){
         this.door = new Door(new Vector2(50,200), 380, 30);
         this.spotLight = new SpotLight(new Vector2(240, 400), 50);
-        this.joystick = new Joystick(new Vector2(400, 100), 50, spotLight);
+        this.joystick = new Joystick(new Vector2(400, 100), 75, spotLight);
         this.guard = new Guard(new Vector2(240, 250));
-    }
-
-    public void addAlien(Vector2 pos){
-        aliens.add(new Alien(pos));
-        Gdx.app.log("alien added", pos.x + " " + pos.y);
+        this.aliens = new Array<Alien>();
+        this.level = level;
     }
 
     public void deleteAlien(int i) {
@@ -51,5 +48,9 @@ public class World {
 
     public Guard getGuard() {
         return guard;
+    }
+
+    public Level getLevel() {
+        return level;
     }
 }
