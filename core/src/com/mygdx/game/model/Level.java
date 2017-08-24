@@ -5,22 +5,19 @@ package com.mygdx.game.model;
  */
 
 public class Level {
-    int number, wavesCount, aliensCountInWave;
+    int number, aliensCountInWave, waveDuration;
     float aliensFreaquency;
 
-    public Level(int number) {
+    public void levelInit(int number) {
         this.number = number; // пока тока 1й уровень
-        this.wavesCount = 3;
+        //this.wavesCount = 3;
+        this.waveDuration = 30; //sec
         this.aliensCountInWave = 10;
-        this.aliensFreaquency = 1f;
+        aliensFreaquency = waveDuration / aliensCountInWave;
     }
 
     public int getNumber() {
         return number;
-    }
-
-    public int getWavesCount() {
-        return wavesCount;
     }
 
     public int getAliensCountInWave() {

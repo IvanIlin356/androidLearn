@@ -22,11 +22,13 @@ public class WorldRenderer {
     SpriteBatch batch;
     BitmapFont font;
 
+    public static float worldWidth, worldHeight;
+
     public WorldRenderer(World world) {
         this.world = world;
-        float worldWidth = 480;
+        worldWidth = 480;
         float ppu = Gdx.graphics.getWidth() / worldWidth;
-        float worldHeight = Gdx.graphics.getHeight() / ppu;
+        worldHeight = Gdx.graphics.getHeight() / ppu;
         camera = new OrthographicCamera(worldWidth, worldHeight);
 
         camera.position.set(worldWidth / 2, worldHeight / 2, 0); //camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);

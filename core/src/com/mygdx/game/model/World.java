@@ -17,13 +17,18 @@ public class World {
     Guard guard;
     Level level;
 
-    public World(Level level){
+    public World(){
         this.door = new Door(new Vector2(50,200), 380, 30);
         this.spotLight = new SpotLight(new Vector2(240, 400), 50);
         this.joystick = new Joystick(new Vector2(400, 100), 75, spotLight);
         this.guard = new Guard(new Vector2(240, 250));
         this.aliens = new Array<Alien>();
-        this.level = level;
+        this.level = new Level();
+        level.levelInit(1);
+    }
+
+    public void addAlien(Vector2 pos){
+        aliens.add(new Alien(pos));
     }
 
     public void deleteAlien(int i) {

@@ -31,7 +31,7 @@ public class GameScreen implements Screen,InputProcessor{
 
     public GameScreen(MyGdxGame game) {
         this.game = game;
-        this.world = new World(new Level(1));
+        this.world = new World();
         this.controller = new WorldController(world);
         this.renderer = new WorldRenderer(world);
         this.levelController = new LevelController(world);
@@ -48,8 +48,8 @@ public class GameScreen implements Screen,InputProcessor{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        levelController.update(delta);
         controller.update(delta);
-        levelController.update();
         renderer.render();
     }
 
